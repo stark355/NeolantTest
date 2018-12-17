@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Task2\CamMove1.cs" />
     <Compile Include="Assets\Scripts\Task2\DoorEvent.cs" />
     <Compile Include="Assets\Scripts\Task3\MaterialSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Task4\CamMove4.cs" />
     <Compile Include="Assets\Scripts\Task4\GetFiles.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/elend/OneDrive/Документы/Test3d/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

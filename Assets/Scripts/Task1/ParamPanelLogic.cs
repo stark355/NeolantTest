@@ -6,7 +6,6 @@ using System.Globalization;
 
 public class ParamPanelLogic : MonoBehaviour {
 
-    RectTransform paramPanel;
     InputField inputX;
     InputField inputY;
     InputField inputZ;
@@ -15,7 +14,6 @@ public class ParamPanelLogic : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        paramPanel = GameObject.Find("ParametersPanel").GetComponent<RectTransform>();
         inputX = GameObject.Find("ParametersPanel/InputX").GetComponent<InputField>();
         inputY = GameObject.Find("ParametersPanel/InputY").GetComponent<InputField>();
         inputZ = GameObject.Find("ParametersPanel/InputX").GetComponent<InputField>();
