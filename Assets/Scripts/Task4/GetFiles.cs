@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class GetFiles : MonoBehaviour {
 
-    public string[] fullAdressList;
-    static List<Text> childList;
-    public Text parentItem;
-    public List <string> truncList;
-    //int currentPrefab = -1;
-    public GameObject myPrefab;
+    public string[] fullAdressList; //список к полным путям к префам
+    static List<GameObject> prefabLabelList; //список имен префабов
+    public Text parentItem; //родительский элемент для имен префабов
+    public List <string> truncList; //список с именами перфабов (с расширениями)
+    public List <string> prefabNameList; //список с именами префабов (без расширений)
+    public List<GameObject> prefabList;
+    public ErrorEngine errEngine;
+    string searchStr = "";
 
 
     // Use this for initialization
     void Start () {
-        childList = new List<Text>();
+        prefabLabelList = new List<GameObject>();
         truncList = new List<string>();
+        prefabNameList = new List<string>();
         GetListMethod();
+        prefabList = new List<GameObject>();
+        errEngine = GameObject.Find("ErrorText").GetComponent<ErrorEngine>();
+        //GameObject gmobj = Resources.Load("Prefabs\\Cube") as GameObject;
+        //Instantiate(gmobj);
     }
 	// Update is called once per frame
 	void Update () {
@@ -25,60 +33,93 @@ public class GetFiles : MonoBehaviour {
 
     public void GetListMethod()
     {
-        fullAdressList = System.IO.Directory.GetFiles(System.Environment.CurrentDirectory + "\\Assets\\Prefabs", "*.prefab");
+        fullAdressList = System.IO.Directory.GetFiles(System.Environment.CurrentDirectory + "\\Assets\\Resources\\Prefabs", "*.prefab");
         //parentItem = GameObject.Find("PanelTask4/ListContentParentButton").GetComponent<Button>();
-        parentItem.gameObject.SetActive(false);
+        
+        //parentItem.gameObject.SetActive(false);
         //генерация укороченных адресов
         for (int i = 0; i < fullAdressList.Length; i++)
         {
             string[] pathArr = fullAdressList[i].Split('\\');
             truncList.Add(pathArr[pathArr.Length - 1]);
         }
+        for (int i = 0; i < truncList.Count; i++)
+        {
+            string[] pathArr = truncList[i].Split('.');
+            prefabNameList.Add(pathArr[0]);
+        }
         GenerateList();
     }
     public void GenerateList()
     {
-        parentItem.gameObject.SetActive(true);
-        for(int i = 0; i < fullAdressList.Length; i++)
+        //строка для имени префаба
+        string tmpName;
+        for (int i = 0; i < fullAdressList.Length; i++)
         {
-            Text tmp = Instantiate(parentItem, parentItem.transform.position + new Vector3(0, -25 * (i + 1), 0), Quaternion.identity);
-            //tmp.transform.parent = gameObject.transform;
-            //tmp.transform.SetParent(gameObject.transform);
+            tmpName = "PrefubNum" + i;
+            GameObject tmp = new GameObject(tmpName);
             tmp.transform.SetParent(gameObject.transform);
-            tmp.GetComponentInChildren<Text>().text = truncList[i];
-            //Debug.Log(tmp.GetComponentInChildren<Text>().text + "inside");
-            childList.Add(tmp);
-        }
-        parentItem.gameObject.SetActive(false);
-    }
-    
-    public void GetPrefabFromClick(string s)
-    {
-        Debug.Log(s);
-        for (int i = 0; i < truncList.Count; i++)
-        {
-            if (s == truncList[i])
-            {
-                string pref = fullAdressList[i];
-                //myPrefab = GameObject.Find(fullAdressList[i]).GetComponent<GameObject>();
-                Debug.Log(pref);
-            }
-        }
-        {
+            RectTransform trans = tmp.AddComponent<RectTransform>();
+            //      TODO: сделать относительный сдвиг
+            trans.position = new Vector3(parentItem.transform.position.x, parentItem.transform.position.y - (20 * (i + 1)), parentItem.transform.position.z);
+            //кнопка, на которую повесится клик
+            Button btn = tmp.AddComponent<Button>();
+            var ind = i;
+            btn.onClick.AddListener(delegate { GetPrefabName((int)ind); });
+            //текст для отображения имен префабов
+            Text tmpText = tmp.AddComponent<Text>();
+            tmpText.text = prefabNameList[i];
+            tmpText.fontSize = parentItem.fontSize;
+            tmpText.font = parentItem.font;
+            tmpText.color = parentItem.color;
+            trans.sizeDelta = parentItem.rectTransform.sizeDelta;
+            prefabLabelList.Add(tmp);
 
         }
-        //currentPrefab = i;
     }
 
-    public void ClickOnText(GameObject g)
+    public void GetPrefabName(int index)
     {
-        //Text txt = GetComponent<Text>();
-        //Text txt = g.gameObject.
-        //GetPrefabFromClick(txt.text);
+        //вынести
+        searchStr = "PrefubNum" + index;
+        Text txt = GameObject.Find(searchStr).GetComponent<Text>();
+        string pathToPrefub = "Prefabs\\" + txt.text;
+        GameObject gmobj = Resources.Load(pathToPrefub) as GameObject;
+        prefabList.Add(Instantiate(gmobj));
+        Debug.Log("clicked" + txt.text);
     }
 
-        public void Generate()
+    int GetPrefabArraySize()
     {
+        Debug.Log("getting");
+        int inputSize = int.Parse(GameObject.Find("PanelTask4/InputSizeField").GetComponent<InputField>().text);
+        return inputSize;
+    }
+
+    public void Generate()
+    {
+        //
         //if -1 - error
+        
+        int size = -1;
+        
+        try
+        {
+            size = GetPrefabArraySize();
+        }
+        catch(System.Exception)
+        {
+            errEngine.SetError("Wrong value");
+        }
+        
+        if (size < 1 || size > 15)
+        {
+            errEngine.SetError("Set value between 1 and 15");
+        }
+        else
+        {
+
+        }
+
     }
 }

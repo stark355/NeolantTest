@@ -28,7 +28,7 @@ public class ErrorEngine : MonoBehaviour
 
     async public void ShowErrorText()
     {
-        errorText.rectTransform.sizeDelta = new Vector2(160, 30);
+        errorText.rectTransform.sizeDelta = new Vector2(200, 30);
         await Task.Delay(5000);
         HideErrorText();
     }
