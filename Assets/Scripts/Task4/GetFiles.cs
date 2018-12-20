@@ -66,8 +66,7 @@ public class GetFiles : MonoBehaviour {
             //кнопка, на которую повесится клик
             Button btn = tmp.AddComponent<Button>();
             //номер кнопки в массиве кнопок (Game Object'ов)
-            var ind = i;
-            btn.onClick.AddListener(delegate { GetPrefabName((int)ind); });
+            btn.onClick.AddListener(delegate { GetPrefabName(btn); });
             //текст для отображения имен префабов
             Text tmpText = tmp.AddComponent<Text>();
             tmpText.text = prefabNameList[i];
@@ -79,15 +78,13 @@ public class GetFiles : MonoBehaviour {
 
         }
     }
-
     /// <summary>
     /// получить имя префаба
     /// </summary>
-    /// <param name="index">номер нажатой кнопки</param>
-    public void GetPrefabName(int index)
+    /// <param name="btn">нажатая кнопка</param>
+    public void GetPrefabName(Button btn)
     {
-        string searchStr = "PrefubNum" + index;
-        Text txt = GameObject.Find(searchStr).GetComponent<Text>();
+        Text txt = btn.GetComponent<Text>();
         pathToPrefub = "Prefabs\\" + txt.text;
     }
 
@@ -97,7 +94,7 @@ public class GetFiles : MonoBehaviour {
     /// <returns>размерность массива</returns>
     int GetPrefabArraySize()
     {
-        int inputSize = int.Parse(GameObject.Find("PanelTask4/InputSizeField").GetComponent<InputField>().text);
+        int inputSize = int.Parse(GetComponentInChildren<InputField>().text);
         return inputSize;
     }
     /// <summary>
@@ -145,17 +142,18 @@ public class GetFiles : MonoBehaviour {
             else
             {
                 NullPrefabArray();
+                GameObject gmobj = Resources.Load(pathToPrefub) as GameObject;
+                GameObject realObject;
                 for (int i = 0; i < size; i++)
                 {
                     for (int j = 0; j < size; j++)
                     {
                         for (int k = 0; k < size; k++)
                         {
-                            GameObject gmobj = Resources.Load(pathToPrefub) as GameObject;
-                            gmobj = Instantiate(gmobj);
+                            realObject = Instantiate(gmobj);
                             //      TODO: сделать относительный сдвиг
-                            gmobj.transform.Translate(new Vector3((2 * i), (2 * j), (2 * k)));
-                            prefabList.Add(gmobj);
+                            realObject.transform.Translate(new Vector3((2 * i), (2 * j), (2 * k)));
+                            prefabList.Add(realObject);
                         }                        
                     }
                 }

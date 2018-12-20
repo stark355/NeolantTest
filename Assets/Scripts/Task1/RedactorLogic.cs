@@ -65,7 +65,6 @@ public class RedactorLogic : MonoBehaviour {
             //определение текущего объекта
             for (int i = 0; i < childList.Count; i++)
             {
-                //работаем с объектом скрипта, а не с объектом префаба
                 objLogic = childList[i].GetComponent<ObjectLogic>();
                 if (objLogic.GetID() == currentId)
                 {
@@ -80,7 +79,7 @@ public class RedactorLogic : MonoBehaviour {
     }
 
     /// <summary>
-    /// если объект не выбран - currentId = -1x
+    /// если объект не выбран - currentId = -1
     /// </summary>
     public void MoveObject()
     {
@@ -97,7 +96,6 @@ public class RedactorLogic : MonoBehaviour {
                 //получение параметров из inputField
                 for (int i = 0; i < childList.Count; i++)
                 {
-                    //работаем с объектом скрипта, а не с объектом префаба
                     objLogic = childList[i].GetComponent<ObjectLogic>();
                     if (objLogic.GetID() == currentId)
                     {

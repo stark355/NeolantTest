@@ -5,10 +5,10 @@ using UnityEngine;
 public class DoorEvent : MonoBehaviour {
 
     public bool isOpen;
-    Animator anim;
+    public Animator anim;
 	// Use this for initialization
 	void Start () {
-        anim = GameObject.Find("DoorRotator").GetComponent<Animator>();
+        //anim = GameObject.Find("DoorRotator").GetComponent<Animator>();
     }
 	
 	// Update is called once per frame

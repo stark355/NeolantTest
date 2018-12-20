@@ -647,6 +647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 0
+  anim: {fileID: 1624755932}
 --- !u!95 &1542031872
 Animator:
   serializedVersion: 3
