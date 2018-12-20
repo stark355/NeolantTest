@@ -8,7 +8,7 @@ public class ObjectLogic : MonoBehaviour {
     int objectId;
     // Use this for initialization
     void Start () {
-        redLog = GameObject.Find("GUIPanel").GetComponent<RedactorLogic>();
+        redLog = RedactorLogic.Instance;
 	}
 
 	// Update is called once per frame
@@ -25,17 +25,17 @@ public class ObjectLogic : MonoBehaviour {
     {
         Destroy(this.gameObject);
     }
-    public void MoveObject(float x, float y, float z)
+    public void MoveObject(Vector3 v3)
     {
-        this.transform.Translate(new Vector3(x, y, z));
+        this.transform.Translate(v3);
     }
-    public void RotateObject(float x, float y, float z)
+    public void RotateObject(Vector3 v3)
     {
-        this.transform.Rotate(new Vector3(x, y, z));
+        this.transform.Rotate(v3);
     }
-    public void ScaleObject(float x, float y, float z)
+    public void ScaleObject(Vector3 v3)
     {
-        this.transform.localScale += new Vector3(x, y, z);
+        this.transform.localScale += v3;
     }
 
     public int GetID()

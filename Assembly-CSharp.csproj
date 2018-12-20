@@ -65,7 +65,6 @@
     <Compile Include="Assets\Scripts\Task1\ErrorEngine.cs" />
     <Compile Include="Assets\Scripts\Task1\ObjectLogic.cs" />
     <Compile Include="Assets\Scripts\Task1\ParamPanelLogic.cs" />
-    <Compile Include="Assets\Scripts\Task1\ParentHider.cs" />
     <Compile Include="Assets\Scripts\Task1\RedactorLogic.cs" />
     <Compile Include="Assets\Scripts\Task2\CamMove1.cs" />
     <Compile Include="Assets\Scripts\Task2\DoorEvent.cs" />

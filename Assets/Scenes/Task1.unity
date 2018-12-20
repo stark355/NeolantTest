@@ -604,7 +604,6 @@ GameObject:
   - component: {fileID: 454035786}
   - component: {fileID: 454035785}
   - component: {fileID: 454035784}
-  - component: {fileID: 454035788}
   - component: {fileID: 454035787}
   m_Layer: 0
   m_Name: Main Camera
@@ -690,18 +689,6 @@ MonoBehaviour:
   maximumX: 360
   minimumY: -60
   maximumY: 60
---- !u!114 &454035788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 454035783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3343ad44b3c5882418d0d8c42aef4085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mycube: {fileID: 936237690}
 --- !u!1 &523131746
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,8 +1452,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 56.5, y: -4.6}
-  m_SizeDelta: {x: 38.77, y: 26.32}
+  m_AnchoredPosition: {x: 40, y: -4.6}
+  m_SizeDelta: {x: 20, y: 26.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &686137915
 MonoBehaviour:
@@ -2330,8 +2317,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 56.5, y: -30.920004}
-  m_SizeDelta: {x: 38.77, y: 26.32}
+  m_AnchoredPosition: {x: 40, y: -30.920004}
+  m_SizeDelta: {x: 20, y: 26.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1419488029
 MonoBehaviour:
@@ -2728,6 +2715,10 @@ Prefab:
       propertyPath: m_Size.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1160689654128842, guid: 2771822bf1cb9f8468f9ac2ffea65adf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114872858603320908, guid: 2771822bf1cb9f8468f9ac2ffea65adf, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 2771822bf1cb9f8468f9ac2ffea65adf, type: 2}
@@ -2764,8 +2755,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 56.500008, y: 21.720022}
-  m_SizeDelta: {x: 38.77, y: 26.32}
+  m_AnchoredPosition: {x: 40, y: 21.720022}
+  m_SizeDelta: {x: 20, y: 26.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1876422013
 MonoBehaviour:

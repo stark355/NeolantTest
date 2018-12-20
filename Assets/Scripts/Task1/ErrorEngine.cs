@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 public class ErrorEngine : MonoBehaviour
 {
-
+    public static ErrorEngine Instance { get; private set; }
     Text errorText;
+
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Use this for initialization
     void Start()
     {

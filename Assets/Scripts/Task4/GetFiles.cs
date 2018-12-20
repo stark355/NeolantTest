@@ -23,9 +23,6 @@ public class GetFiles : MonoBehaviour {
         prefabNameList = new List<string>();
         GetListMethod();
         prefabList = new List<GameObject>();
-        errEngine = GameObject.Find("ErrorText").GetComponent<ErrorEngine>();
-        //GameObject gmobj = Resources.Load("Prefabs\\Cube") as GameObject;
-        //Instantiate(gmobj);
     }
 	// Update is called once per frame
 	void Update () {
@@ -37,9 +34,6 @@ public class GetFiles : MonoBehaviour {
     public void GetListMethod()
     {
         fullAdressList = System.IO.Directory.GetFiles(System.Environment.CurrentDirectory + "\\Assets\\Resources\\Prefabs", "*.prefab");
-        //parentItem = GameObject.Find("PanelTask4/ListContentParentButton").GetComponent<Button>();
-        
-        //parentItem.gameObject.SetActive(false);
         //генерация укороченных адресов
         for (int i = 0; i < fullAdressList.Length; i++)
         {
@@ -100,7 +94,7 @@ public class GetFiles : MonoBehaviour {
     /// <summary>
     /// получить значение из InputBox'а
     /// </summary>
-    /// <returns></returns>
+    /// <returns>размерность массива</returns>
     int GetPrefabArraySize()
     {
         int inputSize = int.Parse(GameObject.Find("PanelTask4/InputSizeField").GetComponent<InputField>().text);
@@ -115,7 +109,7 @@ public class GetFiles : MonoBehaviour {
         {
             Destroy(prefabList[i]);
         }
-        prefabList = new List<GameObject>();
+        prefabList.Clear();
     }
 
     /// <summary>

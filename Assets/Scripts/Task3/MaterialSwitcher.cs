@@ -7,13 +7,15 @@ public class MaterialSwitcher : MonoBehaviour {
     float changeSpeed = 1.0f;
     float startTime;
     bool flag = false;
+    Renderer rend;
     // Use this for initialization
     void Start () {
         startTime = Time.time;
+        rend = transform.GetComponent<Renderer>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         if (Input.GetMouseButtonDown(0))
         {
             flag = false;
@@ -26,12 +28,11 @@ public class MaterialSwitcher : MonoBehaviour {
         }
         if (flag == false)
         {
-            transform.GetComponent<Renderer>().material.color = Color.Lerp(Color.black, Color.white, changeSpeed * (Time.time - startTime));
+            rend.material.color = Color.Lerp(Color.black, Color.white, changeSpeed * (Time.time - startTime));
         }
         else
         {
-            transform.GetComponent<Renderer>().material.color = Color.Lerp(Color.white, Color.black, changeSpeed * (Time.time - startTime));
-
+            rend.material.color = Color.Lerp(Color.white, Color.black, changeSpeed * (Time.time - startTime));
         }
     }
     

@@ -10,7 +10,7 @@ public class Adder : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        errEngine = GameObject.Find("ErrorText").GetComponent<ErrorEngine>();
+        errEngine = ErrorEngine.Instance;
         childList = new List<GameObject>();
     }
 	
@@ -30,15 +30,6 @@ public class Adder : MonoBehaviour {
             childList.Add(Instantiate(parentItem, parentItem.transform.position + new Vector3(3 * (childList.Count + 1), 0, 0), parentItem.transform.rotation));
             parentItem.SetActive(false);
         }
-    }
-
-
-    public void Trans()
-    {
-        Debug.Log("pressed");
-        //parentItem.transform.localScale = Vector3.Scale(parentItem.transform.localScale, new Vector3(0.5f, 0.5f, 0.5f));
-        //parentItem.transform.position = Vector3.MoveTowards(parentItem.transform.position, new  Vector3(parentItem.transform.position.x * 2,
-        //    parentItem.transform.position.y, parentItem.transform.position.z), Time.deltaTime);
     }
 
 }

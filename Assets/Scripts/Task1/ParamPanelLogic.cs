@@ -6,27 +6,30 @@ using System.Globalization;
 
 public class ParamPanelLogic : MonoBehaviour {
 
-    InputField inputX;
-    InputField inputY;
-    InputField inputZ;
+    public static ParamPanelLogic Instance { get; private set; }
+    Vector3 parameters;
+    InputField[] inputFields;
 
-    //float x, y, z;
+    void Awake()
+    {
+        Instance = this;
+    }
 
     // Use this for initialization
     void Start () {
-        inputX = GameObject.Find("ParametersPanel/InputX").GetComponent<InputField>();
-        inputY = GameObject.Find("ParametersPanel/InputY").GetComponent<InputField>();
-        inputZ = GameObject.Find("ParametersPanel/InputX").GetComponent<InputField>();
+        parameters = new Vector3();
+        inputFields = GetComponentsInChildren<InputField>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 	}
 
-    public void GetParameters(out float x, out float y, out float z)
+    public Vector3 GetParameters()
     {
-        x = float.Parse(inputX.text, CultureInfo.InvariantCulture);
-        y = float.Parse(inputY.text, CultureInfo.InvariantCulture);
-        z = float.Parse(inputZ.text, CultureInfo.InvariantCulture);
+        parameters.x = float.Parse(inputFields[0].text, CultureInfo.InvariantCulture);
+        parameters.y = float.Parse(inputFields[1].text, CultureInfo.InvariantCulture);
+        parameters.z = float.Parse(inputFields[2].text, CultureInfo.InvariantCulture);
+        return parameters;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class RedactorLogic : MonoBehaviour {
+    public static RedactorLogic Instance { get; private set; }
     public GameObject parentItem;
     static List<GameObject> childList;
     static ErrorEngine errEngine;
@@ -13,17 +14,22 @@ public class RedactorLogic : MonoBehaviour {
     int currentId = -1;
     int oldId = -1;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Use this for initialization
     void Start () {
         childList = new List<GameObject>();
         objectId = 0;
 
-        errEngine = GameObject.Find("ErrorText").GetComponent<ErrorEngine>();
-        paramPanelLogic = GameObject.Find("ParametersPanel").GetComponent<ParamPanelLogic>();
+        errEngine = ErrorEngine.Instance;
+        paramPanelLogic = ParamPanelLogic.Instance;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
     }
 
     public void AddObject()
@@ -34,7 +40,6 @@ public class RedactorLogic : MonoBehaviour {
         }
         else
         {
-                    //TODO: вынести сокрытие родительского объекта в скрипт объекта
             //создание нового объекта префаба
             parentItem.SetActive(true);
             GameObject currentChild = Instantiate(parentItem, parentItem.transform.position + new Vector3(3 * (objectId), 0, 0), parentItem.transform.rotation);
@@ -88,17 +93,16 @@ public class RedactorLogic : MonoBehaviour {
         {
             try
             {
-                float paramX, paramY, paramZ;
+                Vector3 inputParams = paramPanelLogic.GetParameters();
                 //получение параметров из inputField
-                paramPanelLogic.GetParameters(out paramX, out paramY, out paramZ);
                 for (int i = 0; i < childList.Count; i++)
                 {
                     //работаем с объектом скрипта, а не с объектом префаба
                     objLogic = childList[i].GetComponent<ObjectLogic>();
                     if (objLogic.GetID() == currentId)
                     {
-                        objLogic.MoveObject(paramX, paramY, paramZ);
-                        Debug.Log("Moved " + currentId + " on " + paramX + " " + paramY + " " + paramZ);
+                        objLogic.MoveObject(inputParams);
+                        Debug.Log("Moved " + currentId + " on " + inputParams.x + " " + inputParams.y + " " + inputParams.z);
                         break;
                     }
                 }
@@ -120,15 +124,14 @@ public class RedactorLogic : MonoBehaviour {
         {
             try
             {
-                float paramX, paramY, paramZ;
-                paramPanelLogic.GetParameters(out paramX, out paramY, out paramZ);
+                Vector3 inputParams = paramPanelLogic.GetParameters();
                 for (int i = 0; i < childList.Count; i++)
                 {
                     objLogic = childList[i].GetComponent<ObjectLogic>();
                     if (objLogic.GetID() == currentId)
                     {
-                        objLogic.RotateObject(paramX, paramY, paramZ);
-                        Debug.Log("Rotated " + currentId + " on " + paramX + " " + paramY + " " + paramZ);
+                        objLogic.RotateObject(inputParams);
+                        Debug.Log("Rotated " + currentId + " on " + inputParams.x + " " + inputParams.y + " " + inputParams.z);
                         break;
                     }
                 }
@@ -150,15 +153,14 @@ public class RedactorLogic : MonoBehaviour {
         {
             try
             {
-                float paramX, paramY, paramZ;
-                paramPanelLogic.GetParameters(out paramX, out paramY, out paramZ);
+                Vector3 inputParams = paramPanelLogic.GetParameters();
                 for (int i = 0; i < childList.Count; i++)
                 {
                     objLogic = childList[i].GetComponent<ObjectLogic>();
                     if (objLogic.GetID() == currentId)
                     {
-                        objLogic.ScaleObject(paramX, paramY, paramZ);
-                        Debug.Log("Scaled " + currentId + " on " + paramX + " " + paramY + " " + paramZ);
+                        objLogic.ScaleObject(inputParams);
+                        Debug.Log("Scaled " + currentId + " on " + inputParams.x + " " + inputParams.y + " " + inputParams.z);
                         break;
                     }
                 }
