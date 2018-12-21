@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{27F97522-4E01-CC1D-EBD6-D8BB2339EA78}</ProjectGuid>
+    <ProjectGuid>{E4BAC56D-BC8B-CF57-726B-380FCDE64760}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -60,8 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\CamMove.cs" />
     <Compile Include="Assets\Scripts\Task1\Adder.cs" />
-    <Compile Include="Assets\Scripts\Task1\CamMove.cs" />
     <Compile Include="Assets\Scripts\Task1\ErrorEngine.cs" />
     <Compile Include="Assets\Scripts\Task1\ObjectLogic.cs" />
     <Compile Include="Assets\Scripts\Task1\ParamPanelLogic.cs" />
@@ -69,19 +69,18 @@
     <Compile Include="Assets\Scripts\Task2\CamMove1.cs" />
     <Compile Include="Assets\Scripts\Task2\DoorEvent.cs" />
     <Compile Include="Assets\Scripts\Task3\MaterialSwitcher.cs" />
-    <Compile Include="Assets\Scripts\Task4\CamMove4.cs" />
     <Compile Include="Assets\Scripts\Task4\GetFiles.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/elend/OneDrive/Документы/Test3d/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/elend/Desktop/НЕОЛАНТ/NeolantTest/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/elend/OneDrive/Документы/Test3d/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/elend/Desktop/НЕОЛАНТ/NeolantTest/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/elend/OneDrive/Документы/Test3d/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/elend/Desktop/НЕОЛАНТ/NeolantTest/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/elend/OneDrive/Документы/Test3d/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/elend/Desktop/НЕОЛАНТ/NeolantTest/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
