@@ -35,7 +35,11 @@ public class ObjectLogic : MonoBehaviour {
     }
     public void ScaleObject(Vector3 v3)
     {
-        this.transform.localScale += v3;
+        //абсолютные значения
+        //this.transform.localScale += v3;
+
+        //классический Scaling, отсносительно текущего размера
+        this.transform.localScale = Vector3.Scale(this.transform.localScale, v3);
     }
 
     public int GetID()

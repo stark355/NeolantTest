@@ -6,23 +6,25 @@ using UnityEngine.Events;
 
 public class GetFiles : MonoBehaviour {
 
-    public string[] fullAdressList; //массив с полными путями к префабам
-    static List<GameObject> prefabLabelList; //список имен префабов
-    public Text parentItem; //родительский элемент для имен префабов
-    public List <string> truncList; //список с именами перфабов (с расширениями)
-    public List <string> prefabNameList; //список с именами префабов (без расширений)
-    public List<GameObject> prefabList; //список, содержащий объекты префабов
-    public ErrorEngine errEngine;
-    string pathToPrefub = "";
+    string[] fullAdressList; //массив с полными путями к префабам
+    List<GameObject> prefabLabelList; //список имен префабов
+    [SerializeField]
+    Text parentItem; //родительский элемент для имен префабов
+    List <string> truncList; //список с именами перфабов (с расширениями)
+    List <string> prefabNameList; //список с именами префабов (без расширений)
+    List<GameObject> prefabList; //список, содержащий объекты префабов
+    ErrorEngine errEngine;
+    string pathToPrefab = "";
 
 
     // Use this for initialization
     void Start () {
+        errEngine = ErrorEngine.Instance;
         prefabLabelList = new List<GameObject>();
         truncList = new List<string>();
         prefabNameList = new List<string>();
-        GetListMethod();
         prefabList = new List<GameObject>();
+        GetListMethod();
     }
 	// Update is called once per frame
 	void Update () {
@@ -57,7 +59,7 @@ public class GetFiles : MonoBehaviour {
         string tmpName;
         for (int i = 0; i < fullAdressList.Length; i++)
         {
-            tmpName = "PrefubNum" + i;
+            tmpName = "PrefabNum" + i;
             GameObject tmp = new GameObject(tmpName);
             tmp.transform.SetParent(gameObject.transform);
             RectTransform trans = tmp.AddComponent<RectTransform>();
@@ -85,7 +87,7 @@ public class GetFiles : MonoBehaviour {
     public void GetPrefabName(Button btn)
     {
         Text txt = btn.GetComponent<Text>();
-        pathToPrefub = "Prefabs\\" + txt.text;
+        pathToPrefab = "Prefabs\\" + txt.text;
     }
 
     /// <summary>
@@ -134,7 +136,7 @@ public class GetFiles : MonoBehaviour {
         }
         else
         {
-            if (pathToPrefub == "")
+            if (pathToPrefab == "")
             {
                 errEngine.SetError("Prefab have not chosen");
             }
@@ -142,7 +144,7 @@ public class GetFiles : MonoBehaviour {
             else
             {
                 NullPrefabArray();
-                GameObject gmobj = Resources.Load(pathToPrefub) as GameObject;
+                GameObject gmobj = Resources.Load(pathToPrefab) as GameObject;
                 GameObject realObject;
                 for (int i = 0; i < size; i++)
                 {

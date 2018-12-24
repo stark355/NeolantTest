@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class RedactorLogic : MonoBehaviour {
     public static RedactorLogic Instance { get; private set; }
-    public GameObject parentItem;
+    [SerializeField]
+    GameObject parentItem;
     static List<GameObject> childList;
-    static ErrorEngine errEngine;
-    static ObjectLogic objLogic;
-    static ParamPanelLogic paramPanelLogic;
+    ErrorEngine errEngine;
+    ObjectLogic objLogic;
+    ParamPanelLogic paramPanelLogic;
     static int objectId;
     int currentId = -1;
     int oldId = -1;
