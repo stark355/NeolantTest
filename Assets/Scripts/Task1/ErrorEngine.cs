@@ -33,16 +33,16 @@ public class ErrorEngine : MonoBehaviour
         errorText.rectTransform.sizeDelta = new Vector2(0, 0);
     }
 
-    async public void ShowErrorText()
+    public IEnumerator ShowErrorText()
     {
         errorText.rectTransform.sizeDelta = new Vector2(200, 30);
-        await Task.Delay(5000);
+        yield return new WaitForSeconds(5f);
         HideErrorText();
     }
 
     public void SetError(string s)
     {
-        ShowErrorText();
+        StartCoroutine(ShowErrorText());
         errorText.text = s;
     }
 }
