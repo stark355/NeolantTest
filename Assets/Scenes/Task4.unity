@@ -670,46 +670,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1611173854 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1216854373676404, guid: 60db20b28ca63324eb54fcf5d01e2ecd,
-    type: 2}
-  m_PrefabInternal: {fileID: 2131856026}
 --- !u!224 &1611173855 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224548850774156544, guid: 60db20b28ca63324eb54fcf5d01e2ecd,
     type: 2}
   m_PrefabInternal: {fileID: 2131856026}
---- !u!114 &1611173856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1611173854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 843124918}
-          m_MethodName: ClickOnText
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &1611173857 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114159381749861218, guid: 60db20b28ca63324eb54fcf5d01e2ecd,

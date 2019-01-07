@@ -15,6 +15,8 @@ public class GetFiles : MonoBehaviour {
     List<GameObject> prefabList; //список, содержащий объекты префабов
     ErrorEngine errEngine;
     string pathToPrefab = "";
+    int currentPrefId = -1;
+    int oldPrefId = -1;
 
 
     // Use this for initialization
@@ -67,8 +69,9 @@ public class GetFiles : MonoBehaviour {
             trans.position = new Vector3(parentItem.transform.position.x, parentItem.transform.position.y - (20 * i), parentItem.transform.position.z);
             //кнопка, на которую повесится клик
             Button btn = tmp.AddComponent<Button>();
+            int ind = i;
             //номер кнопки в массиве кнопок (Game Object'ов)
-            btn.onClick.AddListener(delegate { GetPrefabName(btn); });
+            btn.onClick.AddListener(delegate { OnPrefabNameClick(btn, ind); });
             //текст для отображения имен префабов
             Text tmpText = tmp.AddComponent<Text>();
             tmpText.text = prefabNameList[i];
@@ -90,6 +93,29 @@ public class GetFiles : MonoBehaviour {
         pathToPrefab = "Prefabs\\" + txt.text;
     }
 
+    public void OnPrefabNameClick(Button btn, int ind)
+    {
+        if (currentPrefId == -1)
+        {
+            currentPrefId = ind;
+        }
+        else
+        {
+            oldPrefId = currentPrefId;
+            currentPrefId = ind;
+        }
+        RecolorButtons(oldPrefId, currentPrefId);
+        GetPrefabName(btn);
+    }
+    public void RecolorButtons(int old, int cur)
+    {
+        if (old >= 0)
+        {
+            prefabLabelList[old].GetComponent<Text>().color = new Color32(50, 50, 50, 255);
+        }
+        prefabLabelList[cur].GetComponent<Text>().color = new Color32(20, 130, 20, 255);
+    }
+
     /// <summary>
     /// получить значение из InputBox'а
     /// </summary>
@@ -102,7 +128,7 @@ public class GetFiles : MonoBehaviour {
     /// <summary>
     /// обнулить список
     /// </summary>
-    void NullPrefabArray()
+    void SetNullPrefabArray()
     {
         for (int i = 0; i < prefabList.Count; i++)
         {
@@ -115,10 +141,7 @@ public class GetFiles : MonoBehaviour {
     /// сгенерировать массив объектов
     /// </summary>
     public void Generate()
-    {
-        //
-        //if -1 - error
-        
+    {        
         int size = -1;
         
         try
@@ -143,7 +166,7 @@ public class GetFiles : MonoBehaviour {
             //если все в порядке
             else
             {
-                NullPrefabArray();
+                SetNullPrefabArray();
                 GameObject gmobj = Resources.Load(pathToPrefab) as GameObject;
                 GameObject realObject;
                 //realObject = Instantiate(gmobj);
