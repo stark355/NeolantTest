@@ -146,6 +146,11 @@ public class GetFiles : MonoBehaviour {
                 NullPrefabArray();
                 GameObject gmobj = Resources.Load(pathToPrefab) as GameObject;
                 GameObject realObject;
+                //realObject = Instantiate(gmobj);
+                //Collider realObjCollider = realObject.GetComponent<Collider>();
+                //Vector3 boundsSize = new Vector3(realObjCollider.bounds.size.x, realObjCollider.bounds.size.y, realObjCollider.bounds.size.z);
+                //Destroy(realObject);
+                Vector3 boundsSize = new Vector3(0, 0, 0);
                 for (int i = 0; i < size; i++)
                 {
                     for (int j = 0; j < size; j++)
@@ -153,8 +158,13 @@ public class GetFiles : MonoBehaviour {
                         for (int k = 0; k < size; k++)
                         {
                             realObject = Instantiate(gmobj);
-                            //      TODO: сделать относительный сдвиг
-                            realObject.transform.Translate(new Vector3((2 * i), (2 * j), (2 * k)));
+                            if (i == 0 && j == 0 && k == 0)
+                            {
+                                Collider realObjCollider = realObject.GetComponent<Collider>();
+                                boundsSize = new Vector3(realObjCollider.bounds.size.x, realObjCollider.bounds.size.y, realObjCollider.bounds.size.z);
+                            }
+                            realObject.transform.Translate(new Vector3(boundsSize.x * 2 * i, boundsSize.y * 2 * j, boundsSize.z * 2 * k));
+                            //realObject.transform.Translate(new Vector3((2 * i), (2 * j), (2 * k)));
                             prefabList.Add(realObject);
                         }                        
                     }

@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class RedactorLogic : MonoBehaviour {
     public static RedactorLogic Instance { get; private set; }
     [SerializeField]
-    GameObject parentItem;
-    static List<GameObject> childList;
+    GameObject parentItem; //префаб, из которого будут создаваться объекты
+    Collider parentItemCollider; //коллайдер родительского префаба
+    static List<GameObject> childList; //список новых элементов
     ErrorEngine errEngine;
     ObjectLogic objLogic;
     ParamPanelLogic paramPanelLogic;
@@ -24,6 +25,7 @@ public class RedactorLogic : MonoBehaviour {
     void Start () {
         childList = new List<GameObject>();
         objectId = 0;
+        parentItemCollider = parentItem.GetComponent<Collider>();
 
         errEngine = ErrorEngine.Instance;
         paramPanelLogic = ParamPanelLogic.Instance;
@@ -43,7 +45,10 @@ public class RedactorLogic : MonoBehaviour {
         {
             //создание нового объекта префаба
             parentItem.SetActive(true);
-            GameObject currentChild = Instantiate(parentItem, parentItem.transform.position + new Vector3(3 * (objectId), 0, 0), parentItem.transform.rotation);
+            //сдвиг с учетом размера префаба
+            GameObject currentChild = Instantiate(parentItem, parentItem.transform.position + new Vector3(2 * parentItemCollider.bounds.size.x * objectId, 0, 0), parentItem.transform.rotation);
+            //сдвиг без учета размера префаба - если размер префаба больше задаваемого смещения - объекты "слипнутся"
+            //GameObject currentChild = Instantiate(parentItem, parentItem.transform.position + new Vector3(3 * (objectId), 0, 0), parentItem.transform.rotation);
             childList.Add(currentChild);
             objLogic = currentChild.GetComponent<ObjectLogic>();
             objLogic.SetID(objectId);
