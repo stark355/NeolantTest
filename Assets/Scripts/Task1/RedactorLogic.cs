@@ -9,6 +9,11 @@ public class RedactorLogic : MonoBehaviour {
     GameObject parentItem; //префаб, из которого будут создаваться объекты
     Collider parentItemCollider; //коллайдер родительского префаба
     static List<GameObject> childList; //список новых элементов
+
+    /*[SerializeField]
+    public GameObject axisContainer; //объект, содержащий движение по осям
+    //public Collider axisCollider;*/
+
     ErrorEngine errEngine;
     ObjectLogic objLogic;
     ParamPanelLogic paramPanelLogic;
@@ -26,6 +31,7 @@ public class RedactorLogic : MonoBehaviour {
         childList = new List<GameObject>();
         objectId = 0;
         parentItemCollider = parentItem.GetComponent<Collider>();
+
 
         errEngine = ErrorEngine.Instance;
         paramPanelLogic = ParamPanelLogic.Instance;
@@ -75,6 +81,7 @@ public class RedactorLogic : MonoBehaviour {
                 if (objLogic.GetID() == currentId)
                 {
                     Debug.Log("Removed " + currentId);
+                    objLogic.SetChecking(false);
                     objLogic.Destroyer();
                     childList.Remove(childList[i]);
                     ResetCurrentID();
