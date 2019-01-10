@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class AxisController : MonoBehaviour {
     public static AxisController Instance { get; private set; }
-    protected static GameObject attachedInstance;
+    static GameObject attachedInstance;
     Collider attachedInstanceCollider;
     Collider xyzAxisCollider;
     MeshRenderer[] render;
-    //Vector3 standartScalingX;
-    //Vector3 standartScalingY;
-    //Vector3 standartScalingZ;
+    [SerializeField]
+    ObjectChanger[] objectChangers;
+    Collider xCollider;
+    ObjectChanger objChanger;
+    //Convert Layer Name to Layer Number
+    int xyzAxisLayer;
 
 
     private void Awake()
@@ -21,17 +24,15 @@ public class AxisController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         xyzAxisCollider = gameObject.GetComponent<Collider>();
+        xCollider = objectChangers[0].GetComponent<Collider>();
         render = GetComponentsInChildren<MeshRenderer>();
         HideElements();
-        //standartScalingX = new Vector3(1.4f, 0.1f, 0.1f);
-        //standartScalingY = new Vector3(0.1f, 1.4f, 0.1f);
-        //standartScalingZ = new Vector3(0.1f, 0.1f, 1.4f);
+        xyzAxisLayer = LayerMask.NameToLayer("XYZAxisChilds");
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        }
     void HideElements()
     {
         for (int i = 0; i < render.Length; i++)
@@ -67,7 +68,7 @@ public class AxisController : MonoBehaviour {
     }
     void CalcPositon()
     {
-        gameObject.transform.position = new Vector3(attachedInstance.transform.position.x + (xyzAxisCollider.bounds.size.x / 2), attachedInstance.transform.position.y, attachedInstance.transform.position.z);
+        gameObject.transform.position = new Vector3(attachedInstance.transform.position.x + (xCollider.bounds.size.x / 2), attachedInstance.transform.position.y, attachedInstance.transform.position.z);
     }
     void CalcScaling()
     {

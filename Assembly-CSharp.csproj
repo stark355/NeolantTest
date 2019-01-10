@@ -64,12 +64,10 @@
     <Compile Include="Assets\Scripts\Task1\Adder.cs" />
     <Compile Include="Assets\Scripts\Task1\AxisController.cs" />
     <Compile Include="Assets\Scripts\Task1\ErrorEngine.cs" />
+    <Compile Include="Assets\Scripts\Task1\ObjectChanger.cs" />
     <Compile Include="Assets\Scripts\Task1\ObjectLogic.cs" />
     <Compile Include="Assets\Scripts\Task1\ParamPanelLogic.cs" />
     <Compile Include="Assets\Scripts\Task1\RedactorLogic.cs" />
-    <Compile Include="Assets\Scripts\Task1\XTranslator.cs" />
-    <Compile Include="Assets\Scripts\Task1\YTranslator.cs" />
-    <Compile Include="Assets\Scripts\Task1\ZTranslator.cs" />
     <Compile Include="Assets\Scripts\Task2\CamMove1.cs" />
     <Compile Include="Assets\Scripts\Task2\DoorEvent.cs" />
     <Compile Include="Assets\Scripts\Task3\MaterialSwitcher.cs" />

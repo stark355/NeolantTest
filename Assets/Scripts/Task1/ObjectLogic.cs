@@ -63,7 +63,7 @@ public class ObjectLogic : MonoBehaviour {
     }
     public void SetChecking(bool isChecked)
     {
-        Debug.Log("clicked");
+        //Debug.Log("clicked");
         if(isChecked == true)
         {
             transform.GetComponent<Renderer>().material.color = new Color(0, 128, 129);

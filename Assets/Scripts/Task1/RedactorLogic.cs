@@ -198,9 +198,9 @@ public class RedactorLogic : MonoBehaviour {
     {
         oldId = currentId;
         currentId = i;
-        Debug.Log("cur " + currentId + " old " + oldId);
         if(currentId != oldId)
         {
+            Debug.Log("cur " + currentId + " old " + oldId);
             Recolor();
         }
     }
