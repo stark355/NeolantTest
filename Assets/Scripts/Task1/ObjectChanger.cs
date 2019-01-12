@@ -11,8 +11,9 @@ public class ObjectChanger : MonoBehaviour {
     Collider axisControllerCollider;
     Vector3 centerShift;
     Collider thisCollider;
+    int flag;
 
-    public enum CurrentAxis { nullAxis, xAxis, yAxis, zAxis}
+    public enum CurrentAxis { xAxis, yAxis, zAxis}
     CurrentAxis currentAxis;
 
     private void Awake()
@@ -54,8 +55,22 @@ public class ObjectChanger : MonoBehaviour {
     Vector3 curScreenPoint;
     Vector3 curPosition;
     Vector3 transformer;
+    Vector3 objScale;
+    Vector3 scaleVector;
+
+    Vector3 prevPosition;
+    bool isToScale = false;
+
     void OnMouseDown()
     {
+        if (!Input.GetKey(KeyCode.Space))
+        {
+            isToScale = false;
+        }
+        else
+        {
+            isToScale = true;
+        }
         attachedInstance = axisController.GetAttachedInstance();
         objLogic = attachedInstance.GetComponent<ObjectLogic>();
         axisControllerCollider = axisContainer.GetComponent<Collider>();
@@ -77,38 +92,79 @@ public class ObjectChanger : MonoBehaviour {
         screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
         offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-    }
-    void OnMouseDrag()
-    {
+        objScale = attachedInstance.transform.localScale;
+        scaleVector = objScale;
         curScreenPoint.x = Input.mousePosition.x;
         curScreenPoint.y = Input.mousePosition.y;
         curScreenPoint.z = screenPoint.z;
-        curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-        switch (currentAxis)
+        prevPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+    }
+    void OnMouseDrag()
+    {
+        if (!isToScale)
         {
-            case CurrentAxis.xAxis:
-                transformer.x = curPosition.x;
-                transformer.y = savedPosition.y;
-                transformer.z = savedPosition.z;
-                break;
-            case CurrentAxis.yAxis:
-                transformer.x = savedPosition.x;
-                transformer.y = curPosition.y;
-                transformer.z = savedPosition.z;
-                transform.position = transformer;
-                break;
-            case CurrentAxis.zAxis:
-                transformer.x = savedPosition.x;
-                transformer.y = savedPosition.y;
-                transformer.z = curPosition.z;
-                break;
-            default:
-                break;
+            curScreenPoint.x = Input.mousePosition.x;
+            curScreenPoint.y = Input.mousePosition.y;
+            curScreenPoint.z = screenPoint.z;
+            curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+            switch (currentAxis)
+            {
+                case CurrentAxis.xAxis:
+                    transformer.x = curPosition.x;
+                    transformer.y = savedPosition.y;
+                    transformer.z = savedPosition.z;
+                    break;
+                case CurrentAxis.yAxis:
+                    transformer.x = savedPosition.x;
+                    transformer.y = curPosition.y;
+                    transformer.z = savedPosition.z;
+                    break;
+                case CurrentAxis.zAxis:
+                    transformer.x = savedPosition.x;
+                    transformer.y = savedPosition.y;
+                    transformer.z = curPosition.z;
+                    break;
+                default:
+                    break;
+            }
+            transform.position = transformer;
+
+            objLogic.CopyPosition(gameObject.transform.position - centerShift);
         }
-        transform.position = transformer;
-
-        objLogic.CopyPosition(gameObject.transform.position - centerShift);
-
+        else
+        {
+            Debug.Log("space");
+            curScreenPoint.x = Input.mousePosition.x;
+            curScreenPoint.y = Input.mousePosition.y;
+            curScreenPoint.z = screenPoint.z;
+            scaleVector = attachedInstance.transform.localScale;
+            curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+            switch (currentAxis)
+            {
+                case CurrentAxis.xAxis:
+                    scaleVector.x += curPosition.x - prevPosition.x;
+                    if (scaleVector.x < 0.1f)
+                        scaleVector.x = 0.1f;
+                    break;
+                case CurrentAxis.yAxis:
+                    scaleVector.y += curPosition.y - prevPosition.y;
+                    if (scaleVector.y < 0.1f)
+                        scaleVector.y = 0.1f;
+                    Debug.Log(scaleVector);
+                    break;
+                case CurrentAxis.zAxis:
+                    scaleVector.z += curPosition.z - prevPosition.z;
+                    if (scaleVector.z < 0.1f)
+                        scaleVector.z = 0.1f;
+                    Debug.Log(scaleVector);
+                    break;
+                default:
+                    break;
+            }
+            //Debug.Log(scaleVector);
+            objLogic.CopyScale(scaleVector);
+            prevPosition = curPosition;
+        }
     }
 
     void OnMouseUp()

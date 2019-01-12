@@ -14,6 +14,9 @@ public class AxisController : MonoBehaviour {
     ObjectChanger objChanger;
     //Convert Layer Name to Layer Number
     int xyzAxisLayer;
+    [SerializeField]
+    float xyzScaleDivider;
+    //float advScale;
 
 
     private void Awake()
@@ -50,29 +53,44 @@ public class AxisController : MonoBehaviour {
     public void SetAttachedInstance(GameObject attachedCube)
     {
         attachedInstance = attachedCube;
-        DrawAxisController();
-    }
-    void DrawAxisController()
-    {
-        if(attachedInstance == null)
+        if (attachedInstance == null)
         {
             HideElements();
         }
         else
         {
             ShowElements();
-            //move
+        }
+        DrawAxisController();
+    }
+    void DrawAxisController()
+    {
+        if(attachedInstance != null)
+        {
             CalcScaling();
             CalcPositon();
         }
     }
     void CalcPositon()
     {
+        /*
+        if (gameObject.transform.localScale.x >= 0 )
+        {
+            gameObject.transform.position = new Vector3(attachedInstance.transform.position.x + (xCollider.bounds.size.x / 2), attachedInstance.transform.position.y, attachedInstance.transform.position.z);
+        }
+        else
+        {
+            gameObject.transform.position = new Vector3(attachedInstance.transform.position.x - (xCollider.bounds.size.x / 2), attachedInstance.transform.position.y, attachedInstance.transform.position.z);
+        }
+        */
         gameObject.transform.position = new Vector3(attachedInstance.transform.position.x + (xCollider.bounds.size.x / 2), attachedInstance.transform.position.y, attachedInstance.transform.position.z);
+
     }
     void CalcScaling()
     {
-        gameObject.transform.localScale = attachedInstance.transform.localScale;
+        gameObject.transform.localScale = attachedInstance.transform.localScale / xyzScaleDivider;
+        //advScale = (attachedInstance.transform.localScale.x / 3) + (attachedInstance.transform.localScale.y / 3) + (attachedInstance.transform.localScale.z / 3);
+        //gameObject.transform.localScale = new Vector3(attachedInstance.transform.localScale.x / advScale, attachedInstance.transform.localScale.y / advScale, attachedInstance.transform.localScale.z / advScale);
     }
     public void Redraw()
     {

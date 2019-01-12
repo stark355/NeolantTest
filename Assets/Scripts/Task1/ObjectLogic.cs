@@ -52,6 +52,11 @@ public class ObjectLogic : MonoBehaviour {
         gameObject.transform.position = toCloneCoords;
         axisController.Redraw();
     }
+    public void CopyScale(Vector3 toCloneSlale)
+    {
+        gameObject.transform.localScale = toCloneSlale;
+        axisController.Redraw();
+    }
 
     public int GetID()
     {
