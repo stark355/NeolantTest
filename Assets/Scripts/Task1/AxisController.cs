@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class AxisController : MonoBehaviour {
     public static AxisController Instance { get; private set; }
-    static GameObject attachedInstance;
-    Collider attachedInstanceCollider;
-    Collider xyzAxisCollider;
-    MeshRenderer[] render;
+    static GameObject attachedInstance; //объект, к которому прикреплены направляющие
+    MeshRenderer[] render; //массив MeshRender'ов детей родительского объекта для всех направляющих
     [SerializeField]
-    ObjectChanger[] objectChangers;
-    Collider xCollider;
-    ObjectChanger objChanger;
-    //Convert Layer Name to Layer Number
-    int xyzAxisLayer;
+    ObjectChanger[] objectChangers; //массив ObjectChanger'ов, помещенных на объекты направляющих
+    Collider xCollider; //коллайдер xAxis. нужен для расчета смещения напрявляющих относительно объекта
+    //int xyzAxisLayer;
     [SerializeField]
-    float xyzScaleDivider;
-    //float advScale;
+    float xyzScaleDivider; //размер напрявляющих относительно размера объекта
 
 
     private void Awake()
@@ -26,16 +21,19 @@ public class AxisController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        xyzAxisCollider = gameObject.GetComponent<Collider>();
         xCollider = objectChangers[0].GetComponent<Collider>();
         render = GetComponentsInChildren<MeshRenderer>();
         HideElements();
-        xyzAxisLayer = LayerMask.NameToLayer("XYZAxisChilds");
+        //xyzAxisLayer = LayerMask.NameToLayer("XYZAxisChilds");
     }
 	
 	// Update is called once per frame
 	void Update () {
         }
+
+    /// <summary>
+    /// скрыть направляющие
+    /// </summary>
     void HideElements()
     {
         for (int i = 0; i < render.Length; i++)
@@ -43,6 +41,9 @@ public class AxisController : MonoBehaviour {
             render[i].enabled = false;
         }
     }
+    /// <summary>
+    /// отобразить направляющие
+    /// </summary>
     void ShowElements()
     {
         for (int i = 0; i < render.Length; i++)
@@ -50,6 +51,10 @@ public class AxisController : MonoBehaviour {
             render[i].enabled = true;
         }
     }
+    /// <summary>
+    /// установить объект, к которому прикреплены направляющие
+    /// </summary>
+    /// <param name="attachedCube">объект, к которому прикреплены направляющие. если null - объект удален</param>
     public void SetAttachedInstance(GameObject attachedCube)
     {
         attachedInstance = attachedCube;
@@ -63,6 +68,9 @@ public class AxisController : MonoBehaviour {
         }
         DrawAxisController();
     }
+    /// <summary>
+    /// отрисовка направляющих в нужном месте и с нужным увеличением
+    /// </summary>
     void DrawAxisController()
     {
         if(attachedInstance != null)
@@ -89,8 +97,6 @@ public class AxisController : MonoBehaviour {
     void CalcScaling()
     {
         gameObject.transform.localScale = attachedInstance.transform.localScale / xyzScaleDivider;
-        //advScale = (attachedInstance.transform.localScale.x / 3) + (attachedInstance.transform.localScale.y / 3) + (attachedInstance.transform.localScale.z / 3);
-        //gameObject.transform.localScale = new Vector3(attachedInstance.transform.localScale.x / advScale, attachedInstance.transform.localScale.y / advScale, attachedInstance.transform.localScale.z / advScale);
     }
     public void Redraw()
     {

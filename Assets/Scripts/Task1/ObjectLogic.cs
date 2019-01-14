@@ -7,11 +7,12 @@ public class ObjectLogic : MonoBehaviour {
     static RedactorLogic redLog;
     static AxisController axisController;
     int objectId;
+    ErrorEngine errEngine;
     // Use this for initialization
     void Start () {
         redLog = RedactorLogic.Instance;
         axisController = AxisController.Instance;
-
+        errEngine = ErrorEngine.Instance;
 	}
 	// Update is called once per frame
 	void Update () {
@@ -23,7 +24,7 @@ public class ObjectLogic : MonoBehaviour {
         Debug.Log("Clicked " + objectId);
     }
 
-    public void Destroyer()
+    public void DestroyObject()
     {
         Destroy(gameObject);
         axisController.SetAttachedInstance(null);
@@ -44,17 +45,24 @@ public class ObjectLogic : MonoBehaviour {
         //transform.localScale += v3;
 
         //классический Scaling, отсносительно текущего размера
-        transform.localScale = Vector3.Scale(transform.localScale, v3);
-        axisController.Redraw();
+        if ((v3.x > 0.1f || v3.x < -0.1f) && (v3.y > 0.1f || v3.y < -0.1f) && (v3.z > 0.1f || v3.z < -0.1f))
+        {
+            transform.localScale = Vector3.Scale(transform.localScale, v3);
+            axisController.Redraw();
+        }
+        else
+        {
+            errEngine.SetError("Please do not scale object less than Abs(0.1)");
+        }
     }
     public void CopyPosition(Vector3 toCloneCoords)
     {
         gameObject.transform.position = toCloneCoords;
         axisController.Redraw();
     }
-    public void CopyScale(Vector3 toCloneSlale)
+    public void CopyScale(Vector3 toCloneScale)
     {
-        gameObject.transform.localScale = toCloneSlale;
+        gameObject.transform.localScale = toCloneScale;
         axisController.Redraw();
     }
 
@@ -66,6 +74,7 @@ public class ObjectLogic : MonoBehaviour {
     {
         objectId = i;
     }
+    //установить данный объект текущим объектом сцены
     public void SetChecking(bool isChecked)
     {
         //Debug.Log("clicked");

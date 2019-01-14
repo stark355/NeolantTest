@@ -35,7 +35,7 @@ public class ErrorEngine : MonoBehaviour
 
     public IEnumerator ShowErrorText()
     {
-        errorText.rectTransform.sizeDelta = new Vector2(200, 30);
+        errorText.rectTransform.sizeDelta = new Vector2(300, 30);
         yield return new WaitForSeconds(5f);
         HideErrorText();
     }

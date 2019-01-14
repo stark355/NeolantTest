@@ -20,6 +20,7 @@ public class RedactorLogic : MonoBehaviour {
     static int objectId;
     int currentId = -1;
     int oldId = -1;
+    Vector3 inputParams;
 
     private void Awake()
     {
@@ -82,7 +83,7 @@ public class RedactorLogic : MonoBehaviour {
                 {
                     Debug.Log("Removed " + currentId);
                     objLogic.SetChecking(false);
-                    objLogic.Destroyer();
+                    objLogic.DestroyObject();
                     childList.Remove(childList[i]);
                     ResetCurrentID();
                     break;
@@ -105,7 +106,7 @@ public class RedactorLogic : MonoBehaviour {
         {
             try
             {
-                Vector3 inputParams = paramPanelLogic.GetParameters();
+                inputParams = paramPanelLogic.GetParameters();
                 //получение параметров из inputField
                 for (int i = 0; i < childList.Count; i++)
                 {
@@ -135,7 +136,7 @@ public class RedactorLogic : MonoBehaviour {
         {
             try
             {
-                Vector3 inputParams = paramPanelLogic.GetParameters();
+                inputParams = paramPanelLogic.GetParameters();
                 for (int i = 0; i < childList.Count; i++)
                 {
                     objLogic = childList[i].GetComponent<ObjectLogic>();
@@ -164,7 +165,7 @@ public class RedactorLogic : MonoBehaviour {
         {
             try
             {
-                Vector3 inputParams = paramPanelLogic.GetParameters();
+                inputParams = paramPanelLogic.GetParameters();
                 for (int i = 0; i < childList.Count; i++)
                 {
                     objLogic = childList[i].GetComponent<ObjectLogic>();

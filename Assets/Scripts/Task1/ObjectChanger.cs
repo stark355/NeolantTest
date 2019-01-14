@@ -3,28 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectChanger : MonoBehaviour {
-    //public static ObjectChanger Instance { get; private set; }
-    AxisController axisController;
-    GameObject attachedInstance;
-    GameObject axisContainer;
-    ObjectLogic objLogic;
-    Collider axisControllerCollider;
-    Vector3 centerShift;
+    AxisController axisController; //скрипт на родительском объекте
+    GameObject attachedInstance; //объект, к которому прикреплены направляющие
+    ObjectLogic objLogic; //скрипт логики объекта, к которому прикреплены направляющие
+    Vector3 centerShift; //смещение относительно центра направляющих
     Collider thisCollider;
-    int flag;
+    ErrorEngine errEngine;
 
-    public enum CurrentAxis { xAxis, yAxis, zAxis}
-    CurrentAxis currentAxis;
+    public enum CurrentAxis { xAxis, yAxis, zAxis} 
+    CurrentAxis currentAxis; //установить значение оси для конкретной направляющей
 
     private void Awake()
     {
-        //Instance = this;
     }
 
     // Use this for initialization
     void Start () {
         axisController = AxisController.Instance;
-        axisContainer = axisController.GetAxisControllerGameObject();
+        errEngine = ErrorEngine.Instance;
         thisCollider = gameObject.GetComponent<Collider>();
         if (gameObject.name == "xAxis")
         {
@@ -42,39 +38,54 @@ public class ObjectChanger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
-    /*public void SetCurrentAxis(int curAxis)
-    {
-        currentAxis = (CurrentAxis)curAxis;
-    }*/
 
-    Vector3 savedPosition;
-    Vector3 screenPoint;
-    Vector3 offset;
-    Vector3 curScreenPoint;
-    Vector3 curPosition;
-    Vector3 transformer;
-    Vector3 objScale;
-    Vector3 scaleVector;
+    Vector3 savedPosition; //позиция объекта, которому прикреплены направляющие на предыдущем шаге вычислений
 
-    Vector3 prevPosition;
-    bool isToScale = false;
+    Vector3 screenPoint; //позиция курсора в единицах мира
+    Vector3 offset; //смещение позиции курсора относительно центра конретной направляющей
+    Vector3 curScreenPoint; ////позиция курсора в пикселах
+
+    Vector3 curPosition; //позиция курсора в единицах мира с учетом смещения
+    Vector3 prevPosition; //позиция курсора в единицах мира с учетом смещения на предыдущем шаге вычислений
+
+    enum CurrentMode { none, move, scale, rotate}
+    CurrentMode currentMode = CurrentMode.none; //режим работы при нажатии на направляющую
+
+    Vector3 transformer; //вектор, на который необходимо передвинуть объект, которому прикреплены направляющие
+    Vector3 scaleVector; //вектор, который необходимо установить в скалирование объекта, которому прикреплены направляющие
+    Vector3 rotateVector; //вектор, на который необходимо повернуть объект, которому прикреплены направляющие
 
     void OnMouseDown()
     {
-        if (!Input.GetKey(KeyCode.Space))
+        //если зажат "пробел", то объект будет масштабироваться
+        if (Input.GetKey(KeyCode.Space))
         {
-            isToScale = false;
+            currentMode = CurrentMode.scale;
         }
+        //если зажать "левый Ctrl", то объект будет вращаться
+        else if (Input.GetKey(KeyCode.LeftControl))
+        {
+            currentMode = CurrentMode.rotate;
+        }
+        //если не зажато ничего, то объект будет перемещаться
         else
         {
-            isToScale = true;
+            currentMode = CurrentMode.move;
         }
-        attachedInstance = axisController.GetAttachedInstance();
-        objLogic = attachedInstance.GetComponent<ObjectLogic>();
-        axisControllerCollider = axisContainer.GetComponent<Collider>();
+        try
+        {
+            attachedInstance = axisController.GetAttachedInstance();
+            objLogic = attachedInstance.GetComponent<ObjectLogic>();
+        }
+        catch (System.Exception e)
+        {
+            //errEngine.SetError(e.Message);
+            errEngine.SetError("Error. There is no attached object");
+        }
+
         Debug.Log(gameObject.name);
+        //для каждой оси смещение относительно центра родительского элемента рассчитывается отдельно
         if (currentAxis == CurrentAxis.xAxis)
         {
             centerShift = new Vector3(thisCollider.bounds.size.x / 2, 0, 0);
@@ -92,21 +103,20 @@ public class ObjectChanger : MonoBehaviour {
         screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
         offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-        objScale = attachedInstance.transform.localScale;
-        scaleVector = objScale;
         curScreenPoint.x = Input.mousePosition.x;
         curScreenPoint.y = Input.mousePosition.y;
         curScreenPoint.z = screenPoint.z;
         prevPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        rotateVector = attachedInstance.transform.eulerAngles;
     }
     void OnMouseDrag()
     {
-        if (!isToScale)
+        curScreenPoint.x = Input.mousePosition.x;
+        curScreenPoint.y = Input.mousePosition.y;
+        curScreenPoint.z = screenPoint.z;
+        curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        if (currentMode == CurrentMode.move)
         {
-            curScreenPoint.x = Input.mousePosition.x;
-            curScreenPoint.y = Input.mousePosition.y;
-            curScreenPoint.z = screenPoint.z;
-            curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
             switch (currentAxis)
             {
                 case CurrentAxis.xAxis:
@@ -131,14 +141,9 @@ public class ObjectChanger : MonoBehaviour {
 
             objLogic.CopyPosition(gameObject.transform.position - centerShift);
         }
-        else
+        else if (currentMode == CurrentMode.scale)
         {
-            Debug.Log("space");
-            curScreenPoint.x = Input.mousePosition.x;
-            curScreenPoint.y = Input.mousePosition.y;
-            curScreenPoint.z = screenPoint.z;
             scaleVector = attachedInstance.transform.localScale;
-            curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
             switch (currentAxis)
             {
                 case CurrentAxis.xAxis:
@@ -150,19 +155,41 @@ public class ObjectChanger : MonoBehaviour {
                     scaleVector.y += curPosition.y - prevPosition.y;
                     if (scaleVector.y < 0.1f)
                         scaleVector.y = 0.1f;
-                    Debug.Log(scaleVector);
                     break;
                 case CurrentAxis.zAxis:
                     scaleVector.z += curPosition.z - prevPosition.z;
                     if (scaleVector.z < 0.1f)
                         scaleVector.z = 0.1f;
-                    Debug.Log(scaleVector);
                     break;
                 default:
                     break;
             }
             //Debug.Log(scaleVector);
             objLogic.CopyScale(scaleVector);
+            prevPosition = curPosition;
+        }
+        else if (currentMode == CurrentMode.rotate)
+        {
+            rotateVector = Vector3.zero;
+            switch (currentAxis)
+            {
+                case CurrentAxis.xAxis:
+                    //двигаем мышь вверх
+                    rotateVector.x = (curPosition.y - prevPosition.y) * 10;
+                    break;
+                case CurrentAxis.yAxis:
+                    //двигаем мышь вбок
+                    rotateVector.y = -(curPosition.x - prevPosition.x) * 10;
+                    break;
+                case CurrentAxis.zAxis:
+                    //двигаем мышь вверх
+                    rotateVector.z = (curPosition.y - prevPosition.y) * 10;
+                    break;
+                default:
+                    break;
+            }
+            //Debug.Log(rotateVector);
+            objLogic.RotateObject(rotateVector);
             prevPosition = curPosition;
         }
     }
