@@ -7,7 +7,7 @@ public class RedactorLogic : MonoBehaviour {
     public static RedactorLogic Instance { get; private set; }
     [SerializeField]
     GameObject parentItem; //префаб, из которого будут создаваться объекты
-    Collider parentItemCollider; //коллайдер родительского префаба
+    //Collider parentItemCollider; //коллайдер родительского префаба
     static List<GameObject> childList; //список новых элементов
 
     /*[SerializeField]
@@ -21,6 +21,8 @@ public class RedactorLogic : MonoBehaviour {
     int currentId = -1;
     int oldId = -1;
     Vector3 inputParams;
+    Vector3 colliderValues;
+
 
     private void Awake()
     {
@@ -31,7 +33,7 @@ public class RedactorLogic : MonoBehaviour {
     void Start () {
         childList = new List<GameObject>();
         objectId = 0;
-        parentItemCollider = parentItem.GetComponent<Collider>();
+        //parentItemCollider = parentItem.GetComponent<Collider>();
 
 
         errEngine = ErrorEngine.Instance;
@@ -53,7 +55,21 @@ public class RedactorLogic : MonoBehaviour {
             //создание нового объекта префаба
             parentItem.SetActive(true);
             //сдвиг с учетом размера префаба
-            GameObject currentChild = Instantiate(parentItem, parentItem.transform.position + new Vector3(2 * parentItemCollider.bounds.size.x * objectId, 0, 0), parentItem.transform.rotation);
+            //GameObject currentChild = Instantiate(parentItem, parentItem.transform.position + new Vector3(2 * parentItemCollider.bounds.size.x * objectId, 0, 0), parentItem.transform.rotation);
+            GameObject currentChild;
+            if (objectId == 0)
+            {
+                currentChild = Instantiate(parentItem);
+                Collider tempCollider = currentChild.GetComponent<Collider>();
+                colliderValues.x = tempCollider.bounds.size.x;
+                colliderValues.y = tempCollider.bounds.size.y;
+                colliderValues.z = tempCollider.bounds.size.z;
+            }
+            else
+            {
+                currentChild = Instantiate(parentItem, parentItem.transform.position + new Vector3(2 * colliderValues.x * objectId, 0, 0), parentItem.transform.rotation);
+            }
+            
             //сдвиг без учета размера префаба - если размер префаба больше задаваемого смещения - объекты "слипнутся"
             //GameObject currentChild = Instantiate(parentItem, parentItem.transform.position + new Vector3(3 * (objectId), 0, 0), parentItem.transform.rotation);
             childList.Add(currentChild);
