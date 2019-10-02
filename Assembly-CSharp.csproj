@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Task2\DoorEvent.cs" />
     <Compile Include="Assets\Scripts\Task3\MaterialSwitcher.cs" />
     <Compile Include="Assets\Scripts\Task4\GetFiles.cs" />
+    <Compile Include="Assets\Scripts\Task4\HideLogic.cs" />
     <Compile Include="Assets\Scripts\Task4\RedactorExt.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Rudakov/NeolantTest/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
